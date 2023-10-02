@@ -8,8 +8,11 @@ import {
   Checkbox,
   Button,
   Divider,
-  IconButton,
 } from "react-native-paper";
+import {
+  signUpWithEmailAndPassword,
+  signInWithEmailzAndPassword,
+} from "../AuthComps/Auth";
 import { AntDesign } from "@expo/vector-icons";
 const SignIn = ({ mode, navigation }) => {
   const { colors } = useTheme();
@@ -29,11 +32,32 @@ const SignIn = ({ mode, navigation }) => {
 
   useEffect(() => {
     if (isEmailAutofilled.current) {
-      // Clear the email error when autofilled
       setError({ ...error, email: "" });
     }
   }, [text.email, error, isEmailAutofilled]);
 
+  const signMeIn = async () => {
+    signInWithEmailzAndPassword(
+      text.email,
+      text.password,
+      navigation,
+      colors.errorContainer,
+      colors.onErrorContainer,
+      colors.primaryContainer,
+      colors.onPrimaryContainer
+    );
+  };
+  const signMeUp = () => {
+    signUpWithEmailAndPassword(
+      text.email,
+      text.password,
+      navigation,
+      colors.errorContainer,
+      colors.onErrorContainer,
+      colors.primaryContainer,
+      colors.onPrimaryContainer
+    );
+  };
   const validateEmail = () => {
     const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
     if (!isEmailAutofilled.current && !emailRegex.test(text.email)) {
@@ -45,8 +69,8 @@ const SignIn = ({ mode, navigation }) => {
   };
 
   const validatePass = () => {
-    if (text.password.trim() === "") {
-      setError({ ...error, password: "Password field is empty" });
+    if (text.password.trim() === "" || text.password.trim().length < 6) {
+      setError({ ...error, password: "Weak password strength" });
       return false;
     }
     setError({ ...error, password: "" }); // Clear the password error
@@ -227,24 +251,45 @@ const SignIn = ({ mode, navigation }) => {
           marginBottom: 27,
         }}
       >
-        <Button
-          mode="contained"
-          style={{ width: 313, height: 48, borderRadius: 10 }}
-          onPress={() => console.log("Pressed")}
-          uppercase={true}
-          labelStyle={{
-            alignSelf: "center",
-            margin: 13,
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: 21,
-            fontWeight: 500,
-            marginTop: 16,
-          }}
-          disabled={error.email || error.password}
-        >
-          {mode === "signIn" ? <>login </> : <>SignUp</>}
-        </Button>
+        {mode === "signIn" ? (
+          <Button
+            mode="contained"
+            style={{ width: 313, height: 48, borderRadius: 10 }}
+            onPress={() => signMeIn()}
+            uppercase={true}
+            labelStyle={{
+              alignSelf: "center",
+              margin: 13,
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: 21,
+              fontWeight: 500,
+              marginTop: 16,
+            }}
+            disabled={error.email || error.password}
+          >
+            Login
+          </Button>
+        ) : (
+          <Button
+            mode="contained"
+            style={{ width: 313, height: 48, borderRadius: 10 }}
+            onPress={() => signMeUp()}
+            uppercase={true}
+            labelStyle={{
+              alignSelf: "center",
+              margin: 13,
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: 21,
+              fontWeight: 500,
+              marginTop: 16,
+            }}
+            disabled={error.email || error.password}
+          >
+            SignUp
+          </Button>
+        )}
       </View>
 
       <View style={{ flexDirection: "row", alignItems: "center" }}>

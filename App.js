@@ -14,6 +14,7 @@ import lightTheme from "./Utilities/theme/lightTheme.json";
 import darkTheme from "./Utilities/theme/darkTheme.json";
 import Heloo from "./Components/Home/heloo";
 import SignIn from "./Components/AuthComps/SignIn";
+import { Toasts } from "@backpackapp-io/react-native-toast";
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
@@ -86,7 +87,18 @@ export default function App() {
               >
                 {(props) => <SignIn {...props} mode={"signIn"} />}
               </Stack.Screen>
+              <Stack.Screen
+                name="Home"
+                options={{
+                  header: ({ navigation }) => {
+                    return null; // Hide the entire header
+                  },
+                  animation: "slide_from_bottom",
+                }}
+                component={Heloo}
+              ></Stack.Screen>
             </Stack.Navigator>
+            <Toasts />
           </PaperProvider>
           <StatusBar
             style="auto"
