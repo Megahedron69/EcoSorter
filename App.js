@@ -12,7 +12,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import lightTheme from "./Utilities/theme/lightTheme.json";
 import darkTheme from "./Utilities/theme/darkTheme.json";
-import Heloo from "./Components/Home/heloo";
+import Home from "./Components/Home/Home";
 import SignIn from "./Components/AuthComps/SignIn";
 import { Toasts } from "@backpackapp-io/react-native-toast";
 SplashScreen.preventAutoHideAsync();
@@ -95,7 +95,7 @@ export default function App() {
                   },
                   animation: "slide_from_bottom",
                 }}
-                component={Heloo}
+                component={Home}
               ></Stack.Screen>
             </Stack.Navigator>
             <Toasts />
@@ -105,6 +105,7 @@ export default function App() {
             barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
             animated={true}
             translucent={true}
+            backgroundColor="transparent"
           />
         </SafeAreaProvider>
       </NavigationContainer>

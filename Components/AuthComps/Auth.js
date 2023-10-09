@@ -1,3 +1,4 @@
+import app from "../../firebaseConfig";
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -5,8 +6,9 @@ import {
   updateProfile,
   signOut,
 } from "firebase/auth";
-import { auth } from "../../firebaseConfig";
 import { ToastPosition, toast } from "@backpackapp-io/react-native-toast";
+
+const auth = getAuth(app);
 export const signUpWithEmailAndPassword = async (
   email,
   password,
@@ -112,7 +114,7 @@ export const signOutUser = async (navigation, bg, txt, ebg, etxt) => {
       },
     });
   } catch (error) {
-    toast("Logged Out", {
+    toast(`${error.message}`, {
       duration: 4000,
       position: ToastPosition.BOTTOM,
       styles: {
