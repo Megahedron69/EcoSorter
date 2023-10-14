@@ -2,6 +2,7 @@
   "expo": {
     "name": "EcoSorter",
     "slug": "EcoSorter",
+    "jsEngine": "jsc",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,6 +22,12 @@
         "expo-updates",
         {
           "username": "account-username"
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow EcoSorter to access your camera."
         }
       ]
     ],

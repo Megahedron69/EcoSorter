@@ -134,6 +134,7 @@ const SignIn = ({ mode, navigation }) => {
           mode="outlined"
           autoComplete="email"
           inputMode="email"
+          autoCapitalize="none"
           onChangeText={(email) => {
             setText({ ...text, email });
           }}
@@ -169,6 +170,7 @@ const SignIn = ({ mode, navigation }) => {
           label="Password"
           mode="outlined"
           autoComplete="password"
+          autoCapitalize="none"
           secureTextEntry={text.hidePass}
           onChangeText={(password) => {
             setText({ ...text, password });
