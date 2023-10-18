@@ -7,13 +7,13 @@ import {
 import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCGkD-IQstnW3RvP6hDqf6UnNByN_RuVzI",
-  authDomain: "ecosorter-f9a91.firebaseapp.com",
-  projectId: "ecosorter-f9a91",
-  storageBucket: "ecosorter-f9a91.appspot.com",
-  messagingSenderId: "420358093793",
-  appId: "1:420358093793:web:e18a84b4d9f1116d4530a0",
-  measurementId: "G-J2KLFFZXEB",
+  apiKey: process.env.EXPO_PUBLIC_apiKey,
+  authDomain: process.env.EXPO_PUBLIC_authDomain,
+  projectId: process.env.EXPO_PUBLIC_projectId,
+  storageBucket: process.env.EXPO_PUBLIC_storageBucket,
+  messagingSenderId: process.env.EXPO_PUBLIC_messagingSenderId,
+  appId: process.env.EXPO_PUBLIC_appId,
+  measurementId: process.env.EXPO_PUBLIC_measurementId,
 };
 
 const app = initializeApp(firebaseConfig);

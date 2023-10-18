@@ -10,7 +10,7 @@ import { useTheme } from "react-native-paper";
 import LottieView from "lottie-react-native";
 import { ToastPosition, toast } from "@backpackapp-io/react-native-toast";
 
-LogBox.ignoreAllLogs(true);
+LogBox.ignoreAllLogs(["Animated: `useNativeDriver`"]);
 const CAM_PREVIEW_WIDTH = Dimensions.get("window").width;
 const CAM_PREVIEW_HEIGHT = CAM_PREVIEW_WIDTH / (9 / 16);
 const OUTPUT_TENSOR_WIDTH = 280;

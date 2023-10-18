@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { useTheme, Button } from "react-native-paper";
-import { signOutUser } from "../../AuthComps/Auth";
 import { getAuth } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 import AppleHeader from "react-native-apple-header";
+
 export const MainScreen = () => {
   const { colors } = useTheme();
   const auth = getAuth();
@@ -40,6 +40,7 @@ export const MainScreen = () => {
           shadowOpacity: 0.46,
           shadowRadius: 11.14,
           elevation: 17,
+          paddingBottom: 30,
         }}
         dateTitleTextStyle={{
           color: colors.onSurface,
@@ -52,24 +53,6 @@ export const MainScreen = () => {
           navigate.navigate("Profile");
         }}
       />
-
-      {/* <Text style={{ color: colors.onBackground }}>MainScreen</Text>
-      <Button
-        onPress={() => {
-          const signMeOut = () => {
-            signOutUser(
-              navigate,
-              colors.primaryContainer,
-              colors.onPrimaryContainer,
-              colors.errorContainer,
-              colors.onErrorContainer
-            );
-          };
-          signMeOut();
-        }}
-      >
-        SignOut
-      </Button> */}
     </View>
   );
 };
