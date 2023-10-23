@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
+  SafeAreaView,
 } from "react-native";
 import { CurvedBottomBarExpo } from "react-native-curved-bottom-bar";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -23,13 +24,13 @@ export default function BottomNav() {
       padding: 20,
     },
     shawdow: {
-      shadowColor: "#DDDDDD",
+      shadowColor: colors.primary,
       shadowOffset: {
         width: 0,
         height: 0,
       },
       shadowOpacity: 1,
-      shadowRadius: 5,
+      shadowRadius: 2,
     },
     button: {
       flex: 1,

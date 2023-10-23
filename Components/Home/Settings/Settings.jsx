@@ -212,11 +212,6 @@ export const Settings = () => {
           </Button>
         </View>
       </View>
-      <StatusBar
-        style="auto"
-        translucent={true}
-        backgroundColor="transparent"
-      />
     </View>
   );
 };

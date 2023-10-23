@@ -170,7 +170,11 @@ export const Scanner = () => {
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       {!tfReady ? (
         <View style={{ flex: 1 }}>
-          <LottieView source={require("../../../assets/lotties/mlmod.json")} />
+          <LottieView
+            loop={true}
+            autoPlay={true}
+            source={require("../../../assets/lotties/mlmod.json")}
+          />
         </View>
       ) : (
         <View style={styles.container}>

@@ -29,6 +29,12 @@
         {
           "cameraPermission": "Allow EcoSorter to access your camera."
         }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow EcoSorter to use your location."
+        }
       ]
     ],
     "assetBundlePatterns": ["**/*"],

@@ -14,12 +14,19 @@ import lightTheme from "./Utilities/theme/lightTheme.json";
 import darkTheme from "./Utilities/theme/darkTheme.json";
 import Home from "./Components/Home/Home";
 import SignIn from "./Components/AuthComps/SignIn";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import { Toasts } from "@backpackapp-io/react-native-toast";
 SplashScreen.preventAutoHideAsync();
 
+const queryClient = new QueryClient();
 export default function App() {
   const Stack = createNativeStackNavigator();
-
   const colorScheme = useColorScheme();
   const paperTheme =
     colorScheme === "dark"
@@ -52,63 +59,67 @@ export default function App() {
   //'none' | 'simple_push' | 'slide_from_bottom' | 'slide_from_right' | 'slide_from_left'
   return (
     <GestureHandlerRootView style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <NavigationContainer>
-        <SafeAreaProvider style={{ flex: 1 }}>
-          <PaperProvider theme={paperTheme}>
-            <Stack.Navigator>
-              <Stack.Screen
-                name="Onboarding"
-                component={LiquidSwipe}
-                options={{
-                  header: ({ navigation }) => {
-                    return null;
-                  },
-                }}
-              />
-              <Stack.Screen
-                name="SignUp"
-                options={{
-                  header: ({ navigation }) => {
-                    return null;
-                  },
-                  animation: "slide_from_right",
-                }}
-              >
-                {(props) => <SignIn {...props} mode={"signUp"} />}
-              </Stack.Screen>
-              <Stack.Screen
-                name="SignIn"
-                options={{
-                  header: ({ navigation }) => {
-                    return null; // Hide the entire header
-                  },
-                  animation: "slide_from_left",
-                }}
-              >
-                {(props) => <SignIn {...props} mode={"signIn"} />}
-              </Stack.Screen>
-              <Stack.Screen
-                name="Home"
-                options={{
-                  header: ({ navigation }) => {
-                    return null; // Hide the entire header
-                  },
-                  animation: "slide_from_bottom",
-                }}
-                component={Home}
-              ></Stack.Screen>
-            </Stack.Navigator>
-            <Toasts />
-          </PaperProvider>
-          <StatusBar
-            style="auto"
-            barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
-            animated={true}
-            translucent={true}
-            backgroundColor="transparent"
-          />
-        </SafeAreaProvider>
-      </NavigationContainer>
+      <QueryClientProvider client={queryClient}>
+        <NavigationContainer>
+          <SafeAreaProvider style={{ flex: 1 }}>
+            <PaperProvider theme={paperTheme}>
+              <Stack.Navigator>
+                <Stack.Screen
+                  name="Onboarding"
+                  component={LiquidSwipe}
+                  options={{
+                    header: ({ navigation }) => {
+                      return null;
+                    },
+                  }}
+                />
+                <Stack.Screen
+                  name="SignUp"
+                  options={{
+                    header: ({ navigation }) => {
+                      return null;
+                    },
+                    animation: "slide_from_right",
+                  }}
+                >
+                  {(props) => <SignIn {...props} mode={"signUp"} />}
+                </Stack.Screen>
+                <Stack.Screen
+                  name="SignIn"
+                  options={{
+                    header: ({ navigation }) => {
+                      return null; // Hide the entire header
+                    },
+                    animation: "slide_from_left",
+                  }}
+                >
+                  {(props) => <SignIn {...props} mode={"signIn"} />}
+                </Stack.Screen>
+                <Stack.Screen
+                  name="Home"
+                  options={{
+                    header: ({ navigation }) => {
+                      return null; // Hide the entire header
+                    },
+                    animation: "slide_from_bottom",
+                  }}
+                  component={Home}
+                ></Stack.Screen>
+              </Stack.Navigator>
+              <Toasts />
+            </PaperProvider>
+            <StatusBar
+              style="auto"
+              barStyle={
+                colorScheme === "dark" ? "light-content" : "dark-content"
+              }
+              animated={true}
+              translucent={true}
+              backgroundColor="transparent"
+            />
+          </SafeAreaProvider>
+        </NavigationContainer>
+      </QueryClientProvider>
     </GestureHandlerRootView>
   );
 }
