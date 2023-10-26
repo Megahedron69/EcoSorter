@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { View, LogBox } from "react-native";
+import { View, LogBox, Modal } from "react-native";
 import { getAuth } from "firebase/auth";
 import {
   useTheme,
@@ -14,7 +12,8 @@ import {
 import Toggle from "react-native-toggle-input";
 import { signOutUser } from "../../AuthComps/Auth";
 import { useNavigation } from "@react-navigation/native";
-export const Settings = () => {
+
+export const Settings = ({ navigation }) => {
   LogBox.ignoreAllLogs(true);
   const { colors } = useTheme();
   const navigate = useNavigation();
@@ -28,6 +27,7 @@ export const Settings = () => {
 
   const [toggleD, setToggleD] = useState(true);
   const [toggleN, setToggleN] = useState(false);
+
   return (
     <View
       style={{
@@ -116,12 +116,13 @@ export const Settings = () => {
             title="Update Profile"
             titleStyle={{ marginLeft: -16 }}
             right={(props) => <List.Icon {...props} icon="chevron-right" />}
-          />
-          <List.Item
-            titleStyle={{ marginLeft: -16 }}
-            title="Change Password"
-            right={(props) => <List.Icon {...props} icon="chevron-right" />}
-          />
+            onPress={() => {
+              navigate.navigate("Miscell", {
+                scrName: "Update",
+              });
+            }}
+          ></List.Item>
+
           <List.Item
             titleStyle={{ marginLeft: -16 }}
             title="Push Notifications"

@@ -5,6 +5,7 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
   signOut,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { ToastPosition, toast } from "@backpackapp-io/react-native-toast";
 
@@ -105,6 +106,32 @@ export const signOutUser = async (navigation, bg, txt, ebg, etxt) => {
     await signOut(auth);
     navigation.navigate("SignIn");
     toast("Logged Out", {
+      duration: 4000,
+      position: ToastPosition.BOTTOM,
+      styles: {
+        view: { backgroundColor: bg, borderRadius: 21 },
+        text: { color: txt },
+        pressable: { borderRadius: 21 },
+      },
+    });
+  } catch (error) {
+    toast(`${error.message}`, {
+      duration: 4000,
+      position: ToastPosition.BOTTOM,
+      styles: {
+        view: { backgroundColor: ebg, borderRadius: 21 },
+        text: { color: etxt },
+        pressable: { borderRadius: 21 },
+      },
+    });
+    throw error;
+  }
+};
+
+export const resetPass = async (bg, txt, ebg, etxt, email) => {
+  try {
+    await sendPasswordResetEmail(auth, email);
+    toast(`Reset email sent to ${email}`, {
       duration: 4000,
       position: ToastPosition.BOTTOM,
       styles: {

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { View, ImageBackground, Image } from "react-native";
+import { View, ImageBackground } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import {
   useTheme,
@@ -12,6 +12,7 @@ import {
 import {
   signUpWithEmailAndPassword,
   signInWithEmailzAndPassword,
+  resetPass,
 } from "../AuthComps/Auth";
 import { AntDesign } from "@expo/vector-icons";
 const SignIn = ({ mode, navigation }) => {
@@ -56,6 +57,15 @@ const SignIn = ({ mode, navigation }) => {
       colors.onErrorContainer,
       colors.primaryContainer,
       colors.onPrimaryContainer
+    );
+  };
+  const resetMe = () => {
+    resetPass(
+      colors.primaryContainer,
+      colors.onPrimaryContainer,
+      colors.errorContainer,
+      colors.onErrorContainer,
+      text.email
     );
   };
   const validateEmail = () => {
@@ -150,6 +160,7 @@ const SignIn = ({ mode, navigation }) => {
             width: 315,
             height: 55,
           }}
+          enterKeyHint="next"
         />
         {error.email ? (
           <View
@@ -178,8 +189,8 @@ const SignIn = ({ mode, navigation }) => {
           onBlur={() => {
             validatePass();
           }}
-          right={<AntDesign name="eye" size={24} color="white" />}
           error={!!error.password}
+          enterKeyHint="done"
           placeholder="Enter password"
           style={{
             width: 315,
@@ -235,7 +246,12 @@ const SignIn = ({ mode, navigation }) => {
                 marginLeft: 69,
               }}
             >
-              <Button mode="text" compact={true}>
+              <Button
+                mode="text"
+                disabled={text.email && !error.email ? false : true}
+                onPress={resetMe}
+                compact={true}
+              >
                 Forgot Password?
               </Button>
             </View>

@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import { useTheme, Button } from "react-native-paper";
+import { useTheme } from "react-native-paper";
 
 function CustomCallout({ locName, address, isOpenNow, rating }) {
   const { colors } = useTheme();

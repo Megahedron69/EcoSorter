@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-
+import { useState } from "react";
 import Slider from "./Slider";
 import Slide from "./Slide";
 

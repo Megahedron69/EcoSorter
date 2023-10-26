@@ -1,9 +1,6 @@
-import { useState } from "react";
-import { View, StatusBar } from "react-native";
+import { StatusBar } from "react-native";
 import { useTheme } from "react-native-paper";
-import { Button, Text, BottomNavigation } from "react-native-paper";
-
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 import BottomNav from "./BottomNavBar";
 
 const Home = ({ navigation }) => {

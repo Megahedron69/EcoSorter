@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Alert,
-  Animated,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  SafeAreaView,
-} from "react-native";
+import { Animated, StyleSheet, TouchableOpacity } from "react-native";
 import { CurvedBottomBarExpo } from "react-native-curved-bottom-bar";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { ChartBox } from "./Charts/ChartBox";
@@ -14,7 +7,7 @@ import { Settings } from "./Settings/Settings";
 import { MapBox } from "./Maps/MapBox";
 import { MainScreen } from "./MainScreen/MainScreen";
 import { Scanner } from "./Scanner/Scanner";
-import { useTheme, Button } from "react-native-paper";
+import { useTheme } from "react-native-paper";
 
 export default function BottomNav() {
   const { colors } = useTheme();

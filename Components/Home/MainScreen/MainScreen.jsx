@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Text, StatusBar } from "react-native";
-import { useTheme, Button } from "react-native-paper";
+import { View } from "react-native";
+import { useTheme } from "react-native-paper";
 import { getAuth } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 import AppleHeader from "react-native-apple-header";

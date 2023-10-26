@@ -1,12 +1,12 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import LiquidSwipe from "./Components/IntroScreen/LiquidSwipe";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PaperProvider, MD3DarkTheme, MD3LightTheme } from "react-native-paper";
 import { useFonts } from "expo-font";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useColorScheme } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -14,20 +14,23 @@ import lightTheme from "./Utilities/theme/lightTheme.json";
 import darkTheme from "./Utilities/theme/darkTheme.json";
 import Home from "./Components/Home/Home";
 import SignIn from "./Components/AuthComps/SignIn";
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
+import { getAuth } from "firebase/auth";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toasts } from "@backpackapp-io/react-native-toast";
+import { UpdateModal } from "./Components/Home/Settings/Updateprofile";
 SplashScreen.preventAutoHideAsync();
 
 const queryClient = new QueryClient();
 export default function App() {
   const Stack = createNativeStackNavigator();
   const colorScheme = useColorScheme();
+  const auth = getAuth();
+  const user = auth.currentUser;
+  const [authe, setAuthe] = useState("Onboarding");
+  useEffect(() => {
+    if (user) setAuthe("Home");
+    else setAuthe("Onboarding");
+  }, []);
   const paperTheme =
     colorScheme === "dark"
       ? { ...MD3DarkTheme, colors: darkTheme.colors }
@@ -63,7 +66,7 @@ export default function App() {
         <NavigationContainer>
           <SafeAreaProvider style={{ flex: 1 }}>
             <PaperProvider theme={paperTheme}>
-              <Stack.Navigator>
+              <Stack.Navigator initialRouteName={authe}>
                 <Stack.Screen
                   name="Onboarding"
                   component={LiquidSwipe}
@@ -95,6 +98,7 @@ export default function App() {
                 >
                   {(props) => <SignIn {...props} mode={"signIn"} />}
                 </Stack.Screen>
+
                 <Stack.Screen
                   name="Home"
                   options={{
@@ -105,6 +109,17 @@ export default function App() {
                   }}
                   component={Home}
                 ></Stack.Screen>
+                <Stack.Screen
+                  name="Miscell"
+                  options={{
+                    header: ({ navigation }) => {
+                      return null; // Hide the entire header
+                    },
+                    animation: "simple_push",
+                  }}
+                >
+                  {(props) => <UpdateModal {...props} />}
+                </Stack.Screen>
               </Stack.Navigator>
               <Toasts />
             </PaperProvider>
