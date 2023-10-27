@@ -89,15 +89,41 @@ export const signInWithEmailzAndPassword = async (
   }
 };
 
-const updateUserProfile = async (user, displayName, photoURL) => {
+export const updateUserProfile = async (
+  user,
+  displayName,
+  photoURL,
+  navigate,
+  ebg,
+  etxt,
+  sbg,
+  stxt
+) => {
   try {
     await updateProfile(user, {
       displayName: displayName,
       photoURL: photoURL,
     });
-    console.log("User profile updated");
+    navigate.goBack();
+    toast("Profile updated Successfully", {
+      duration: 4000,
+      position: ToastPosition.BOTTOM,
+      styles: {
+        view: { backgroundColor: sbg, borderRadius: 21 },
+        text: { color: stxt },
+        pressable: { borderRadius: 21 },
+      },
+    });
   } catch (error) {
-    throw error;
+    toast(`${error.message}`, {
+      duration: 4000,
+      position: ToastPosition.BOTTOM,
+      styles: {
+        view: { backgroundColor: ebg, borderRadius: 21 },
+        text: { color: etxt },
+        pressable: { borderRadius: 21 },
+      },
+    });
   }
 };
 

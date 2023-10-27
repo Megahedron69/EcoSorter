@@ -18,6 +18,7 @@ import { getAuth } from "firebase/auth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toasts } from "@backpackapp-io/react-native-toast";
 import { UpdateModal } from "./Components/Home/Settings/Updateprofile";
+import * as Notifications from "expo-notifications";
 SplashScreen.preventAutoHideAsync();
 
 const queryClient = new QueryClient();
@@ -115,7 +116,7 @@ export default function App() {
                     header: ({ navigation }) => {
                       return null; // Hide the entire header
                     },
-                    animation: "simple_push",
+                    animation: "slide_from_right",
                   }}
                 >
                   {(props) => <UpdateModal {...props} />}

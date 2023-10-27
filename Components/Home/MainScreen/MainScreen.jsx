@@ -21,7 +21,9 @@ export const MainScreen = () => {
         dateTitle={"Welcome Back,"}
         largeTitle={`${myName}`}
         imageSource={{
-          uri: `https://ui-avatars.com/api/?name=${myName}&bold=true&rounded=true`,
+          uri: user.photoURL
+            ? user.photoURL
+            : `https://ui-avatars.com/api/?name=${myName}&bold=true&rounded=true`,
         }}
         style={{
           backgroundColor: colors.surface,

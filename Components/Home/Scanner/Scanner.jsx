@@ -5,10 +5,19 @@ import {
   cameraWithTensors,
 } from "@tensorflow/tfjs-react-native";
 import { Camera } from "expo-camera";
-import { Dimensions, StyleSheet, Text, View, LogBox } from "react-native";
-import { useTheme } from "react-native-paper";
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  View,
+  LogBox,
+  Platform,
+} from "react-native";
+import { useTheme, Button } from "react-native-paper";
 import LottieView from "lottie-react-native";
 import { ToastPosition, toast } from "@backpackapp-io/react-native-toast";
+import { BlurView } from "expo-blur";
+import CollapsibleView from "@eliav2/react-native-collapsible-view";
 
 LogBox.ignoreAllLogs(["Animated: `useNativeDriver`"]);
 const CAM_PREVIEW_WIDTH = Dimensions.get("window").width;
@@ -18,14 +27,14 @@ const OUTPUT_TENSOR_HEIGHT = 480;
 const TensorCamera = cameraWithTensors(Camera);
 
 const classNames = [
-  "e_waste",
-  "plastic_bags",
-  "metal_cans",
-  "plastic_bottles",
-  "food_waste",
-  "leaf_waste",
-  "paper_waste",
-  "wood_waste",
+  "E-Waste",
+  "Plastic bags",
+  "Metal cans",
+  "Plastic bottles",
+  "Food waste",
+  "Leaf waste",
+  "Paper waste",
+  "Wood waste",
 ];
 
 export const Scanner = () => {
@@ -53,26 +62,9 @@ export const Scanner = () => {
       alignItems: "center",
       justifyContent: "center",
     },
-    resultContainerHotdog: {
-      position: "absolute",
-      top: 10,
-      left: 10,
-      zIndex: 100,
-      padding: 20,
-      borderRadius: 16,
-      backgroundColor: "#00aa00",
-    },
-    resultContainerNotHotdog: {
-      position: "absolute",
-      top: 10,
-      left: 10,
-      zIndex: 100,
-      padding: 20,
-      borderRadius: 16,
-      backgroundColor: "#aa0000",
-    },
     resultText: {
-      fontSize: 30,
+      fontSize: 40,
+      fontWeight: "700",
       color: "white",
     },
   });
@@ -188,13 +180,53 @@ export const Scanner = () => {
             onReady={handleCameraStream}
           />
           <View
-            style={
-              preds
-                ? styles.resultContainerHotdog
-                : styles.resultContainerNotHotdog
-            }
+            style={{
+              overflow: "hidden",
+              borderRadius: 16,
+              position: "absolute",
+              bottom: Platform.OS === "android" ? 80 : 125,
+              left: 60,
+              zIndex: 100,
+              width: 290,
+            }}
           >
-            <Text style={styles.resultText}>{preds}</Text>
+            <BlurView
+              intensity={35}
+              tint="light"
+              style={{
+                padding: 10,
+              }}
+            >
+              <CollapsibleView
+                title={<Text style={styles.resultText}>{preds}</Text>}
+                titleStyle={{ marginBottom: 9 }}
+                duration={450}
+                style={{ borderWidth: 0 }}
+                collapsibleContainerStyle={{
+                  borderWidth: 0,
+                }}
+                noArrow={true}
+              >
+                <Button
+                  icon="navigation-variant-outline"
+                  mode="elevated"
+                  onPress={() => console.log("Pressed")}
+                  compact={true}
+                >
+                  Find facilities
+                </Button>
+                <Button
+                  icon="information-outline"
+                  mode="elevated"
+                  onPress={() => console.log("Pressed")}
+                  compact={true}
+                  style={{ marginTop: 7 }}
+                >
+                  Waste info
+                </Button>
+              </CollapsibleView>
+              {/* <Text style={styles.resultText}>{preds}</Text> */}
+            </BlurView>
           </View>
         </View>
       )}

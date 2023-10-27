@@ -52,7 +52,7 @@ export const Settings = ({ navigation }) => {
       <View
         style={{
           flex: 1,
-          width: 379,
+          width: Platform.OS === "android" ? 379 : 360,
           height: 911,
           zIndex: 45,
           backgroundColor: colors.surface,
@@ -175,11 +175,21 @@ export const Settings = ({ navigation }) => {
             title="About Us"
             titleStyle={{ marginLeft: -16 }}
             right={(props) => <List.Icon {...props} icon="chevron-right" />}
+            onPress={() => {
+              navigate.navigate("Miscell", {
+                scrName: "About Us",
+              });
+            }}
           />
           <List.Item
             titleStyle={{ marginLeft: -16 }}
             title="Privacy Policy"
             right={(props) => <List.Icon {...props} icon="chevron-right" />}
+            onPress={() => {
+              navigate.navigate("Miscell", {
+                scrName: "Privacy Policy",
+              });
+            }}
           />
         </View>
         <View
