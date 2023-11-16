@@ -39,14 +39,14 @@ const categories = [
   "baggy",
 ];
 const colors = [
-  "#F2A1AD", // Peach (Paper)
-  "#6495ED", // Medium Aquamarine (E-Waste)
-  "#FFD1DC", // Gold (Food Waste)
-  "#FB3A4D", // Lime Green (Leaf Waste)
-  "#F2AD62", // Powder Blue (Metal Waste)
-  "#977AB1", // Royal Blue (Plastic Bottles)
-  "#8B4513", // Saddle Brown (Wood)
-  "#FF6347", // Tomato Red (Plastic Bags)
+  "#F2A1AD",
+  "#6495ED",
+  "#FFD1DC",
+  "#FB3A4D",
+  "#F2AD62",
+  "#977AB1",
+  "#8B4513",
+  "#FF6347",
 ];
 
 const PAGE_WIDTH = Dimensions.get("screen").width;
