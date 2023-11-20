@@ -18,7 +18,7 @@ import { getAuth } from "firebase/auth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toasts } from "@backpackapp-io/react-native-toast";
 import { UpdateModal } from "./Components/Home/Settings/Updateprofile";
-import * as Notifications from "expo-notifications";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 SplashScreen.preventAutoHideAsync();
 
 const queryClient = new QueryClient();
@@ -67,61 +67,63 @@ export default function App() {
         <NavigationContainer>
           <SafeAreaProvider style={{ flex: 1 }}>
             <PaperProvider theme={paperTheme}>
-              <Stack.Navigator initialRouteName={authe}>
-                <Stack.Screen
-                  name="Onboarding"
-                  component={LiquidSwipe}
-                  options={{
-                    header: ({ navigation }) => {
-                      return null;
-                    },
-                  }}
-                />
-                <Stack.Screen
-                  name="SignUp"
-                  options={{
-                    header: ({ navigation }) => {
-                      return null;
-                    },
-                    animation: "slide_from_right",
-                  }}
-                >
-                  {(props) => <SignIn {...props} mode={"signUp"} />}
-                </Stack.Screen>
-                <Stack.Screen
-                  name="SignIn"
-                  options={{
-                    header: ({ navigation }) => {
-                      return null; // Hide the entire header
-                    },
-                    animation: "slide_from_left",
-                  }}
-                >
-                  {(props) => <SignIn {...props} mode={"signIn"} />}
-                </Stack.Screen>
+              <BottomSheetModalProvider>
+                <Stack.Navigator initialRouteName={authe}>
+                  <Stack.Screen
+                    name="Onboarding"
+                    component={LiquidSwipe}
+                    options={{
+                      header: ({ navigation }) => {
+                        return null;
+                      },
+                    }}
+                  />
+                  <Stack.Screen
+                    name="SignUp"
+                    options={{
+                      header: ({ navigation }) => {
+                        return null;
+                      },
+                      animation: "slide_from_right",
+                    }}
+                  >
+                    {(props) => <SignIn {...props} mode={"signUp"} />}
+                  </Stack.Screen>
+                  <Stack.Screen
+                    name="SignIn"
+                    options={{
+                      header: ({ navigation }) => {
+                        return null; // Hide the entire header
+                      },
+                      animation: "slide_from_left",
+                    }}
+                  >
+                    {(props) => <SignIn {...props} mode={"signIn"} />}
+                  </Stack.Screen>
 
-                <Stack.Screen
-                  name="Home"
-                  options={{
-                    header: ({ navigation }) => {
-                      return null; // Hide the entire header
-                    },
-                    animation: "slide_from_bottom",
-                  }}
-                  component={Home}
-                ></Stack.Screen>
-                <Stack.Screen
-                  name="Miscell"
-                  options={{
-                    header: ({ navigation }) => {
-                      return null; // Hide the entire header
-                    },
-                    animation: "slide_from_right",
-                  }}
-                >
-                  {(props) => <UpdateModal {...props} />}
-                </Stack.Screen>
-              </Stack.Navigator>
+                  <Stack.Screen
+                    name="Home"
+                    options={{
+                      header: ({ navigation }) => {
+                        return null; // Hide the entire header
+                      },
+                      animation: "slide_from_bottom",
+                    }}
+                    component={Home}
+                  ></Stack.Screen>
+                  <Stack.Screen
+                    name="Miscell"
+                    options={{
+                      header: ({ navigation }) => {
+                        return null; // Hide the entire header
+                      },
+                      animation: "slide_from_right",
+                    }}
+                  >
+                    {(props) => <UpdateModal {...props} />}
+                  </Stack.Screen>
+                </Stack.Navigator>
+              </BottomSheetModalProvider>
               <Toasts />
             </PaperProvider>
             <StatusBar

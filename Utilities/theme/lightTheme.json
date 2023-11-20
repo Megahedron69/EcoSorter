@@ -29,6 +29,10 @@
     "inverseSurface": "rgb(47, 49, 45)",
     "inverseOnSurface": "rgb(240, 241, 235)",
     "inversePrimary": "rgb(120, 220, 119)",
+    "infoYellowContainer": "rgb(255, 235, 59)",
+    "onInfoYellowContainer": "rgb(51, 51, 51)",
+    "bottomSheetContainer": "rgb(255, 255, 255)",
+    "onbottomSheetContainer": "rgb(41,29,26)",
     "elevation": {
       "level0": "transparent",
       "level1": "rgb(239, 246, 235)",

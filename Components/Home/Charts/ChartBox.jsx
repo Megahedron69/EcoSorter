@@ -45,92 +45,94 @@ export const ChartBox = () => {
       >
         <MemoizedRadarChart />
       </Surface>
-      <Surface
-        elevation={5}
-        style={{
-          margin: 15,
-          marginLeft: Platform.OS === "ios" ? 5 : 15,
-          width: 385,
-          height: 500,
-          borderRadius: 18,
-          display: "flex",
-          overflow: "hidden",
-        }}
-      >
-        <View
+      <View>
+        <Surface
+          elevation={5}
           style={{
+            margin: 15,
+            marginLeft: Platform.OS === "ios" ? 5 : 15,
+            width: 385,
+            height: 500,
+            borderRadius: 18,
             display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            margin: 8,
-          }}
-        >
-          <Text
-            variant="headlineLarge"
-            style={{ textAlign: "center", fontWeight: 700 }}
-          >
-            Track your progress
-          </Text>
-        </View>
-        <View style={{ position: "absolute", top: 70, left: 10 }}>
-          <FourInstancesView
-            cols={colorScale.slice(0, 4)}
-            vals={vals.slice(0, 4)}
-            cato={catos.slice(0, 4)}
-          />
-        </View>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            padding: 3,
-            alignItems: "center",
-            margin: 6,
-            justifyContent: "space-between",
+            overflow: "hidden",
           }}
         >
           <View
             style={{
-              height: "50%",
-              width: "50%",
-              marginTop: 5,
               display: "flex",
-              marginRight: -159,
-              alignItems: "flex-start",
+              justifyContent: "center",
+              alignItems: "center",
+              margin: 8,
             }}
           >
-            <ActRings
-              colos={colorScale.slice(0, 4)}
+            <Text
+              variant="headlineLarge"
+              style={{ textAlign: "center", fontWeight: 700 }}
+            >
+              Track your progress
+            </Text>
+          </View>
+          <View style={{ position: "absolute", top: 70, left: 10 }}>
+            <FourInstancesView
+              cols={colorScale.slice(0, 4)}
               vals={vals.slice(0, 4)}
-              isclockwise={true}
+              cato={catos.slice(0, 4)}
             />
           </View>
           <View
             style={{
-              height: "50%",
-              width: "50%",
-              margin: 5,
-              alignItems: "flex-end",
-              marginLeft: -159,
-              marginTop: -50,
+              display: "flex",
+              flexDirection: "column",
+              padding: 3,
+              alignItems: "center",
+              margin: 6,
+              justifyContent: "space-between",
             }}
           >
-            <ActRings
-              colos={colorScale.slice(4, colorScale.length)}
+            <View
+              style={{
+                height: "50%",
+                width: "50%",
+                marginTop: 5,
+                display: "flex",
+                marginRight: -159,
+                alignItems: "flex-start",
+              }}
+            >
+              <ActRings
+                colos={colorScale.slice(0, 4)}
+                vals={vals.slice(0, 4)}
+                isclockwise={true}
+              />
+            </View>
+            <View
+              style={{
+                height: "50%",
+                width: "50%",
+                margin: 5,
+                alignItems: "flex-end",
+                marginLeft: -159,
+                marginTop: -50,
+              }}
+            >
+              <ActRings
+                colos={colorScale.slice(4, colorScale.length)}
+                vals={vals.slice(4, vals.length)}
+                isclockwise={false}
+              />
+            </View>
+          </View>
+          <View style={{ position: "absolute", bottom: 50, right: 10 }}>
+            <FourInstancesView
+              cols={colorScale.slice(4, colorScale.length)}
               vals={vals.slice(4, vals.length)}
-              isclockwise={false}
+              cato={catos.slice(4, catos.length)}
             />
           </View>
-        </View>
-        <View style={{ position: "absolute", bottom: 50, right: 10 }}>
-          <FourInstancesView
-            cols={colorScale.slice(4, colorScale.length)}
-            vals={vals.slice(4, vals.length)}
-            cato={catos.slice(4, catos.length)}
-          />
-        </View>
-      </Surface>
-      <TouchableRipple rippleColor="rgba(0, 0, 0, 1)" onPress={showModal}>
+        </Surface>
+      </View>
+      <TouchableRipple rippleColor="rgba(0, 0, 0, .18)" onPress={showModal}>
         <View
           style={{
             marginTop: 20,
@@ -193,9 +195,8 @@ export const ChartBox = () => {
             flex: 1,
             borderRadius: 18,
             backgroundColor: colors.inverseSurface,
-            padding: 10,
             display: "flex",
-            flexDirection: "row",
+            overflow: "scroll",
           }}
         >
           <WebView
@@ -203,11 +204,17 @@ export const ChartBox = () => {
               uri: "https://visualize.data.gov.in/?inst=76436cb1-4fab-42d5-92f9-30a5d41ff187&vid=108482&embed=1",
             }}
             scrollEnabled={true}
-            style={{ flex: 1, width: "100%", height: "100%" }}
+            style={{
+              flex: 1,
+              width: "100%",
+              height: "100%",
+              overflow: "scroll",
+            }}
+            limitsNavigationsToAppBoundDomains={true}
             javaScriptEnabled={true}
             thirdPartyCookiesEnabled={true}
             scalesPageToFit={true}
-            overScrollMode="content"
+            overScrollMode="always"
             setBuiltInZoomControls
             nestedScrollEnabled={true}
             autoManageStatusBarEnabled

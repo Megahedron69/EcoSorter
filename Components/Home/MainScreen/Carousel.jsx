@@ -1,11 +1,25 @@
-import * as React from "react";
-import { View, Dimensions, Platform } from "react-native";
-import Carousel from "react-native-reanimated-carousel";
+import React, { useCallback, useMemo, useRef, useState } from "react";
+import {
+  View,
+  Dimensions,
+  Platform,
+  TouchableWithoutFeedback,
+} from "react-native";
+import { useTheme } from "react-native-paper";
 import Animated, {
   Extrapolate,
   interpolate,
   useAnimatedStyle,
 } from "react-native-reanimated";
+import {
+  BottomSheetModal,
+  useBottomSheetSpringConfigs,
+  BottomSheetScrollView,
+} from "@gorhom/bottom-sheet";
+import LottieView from "lottie-react-native";
+import { useQuery } from "@tanstack/react-query";
+import Carousel from "react-native-reanimated-carousel";
+import WastDets from "./WastDets";
 import { withAnchorPoint } from "../../../Utilities/anchor-point";
 
 const paper = require("../../../assets/images/carousel/paper.png");
@@ -38,7 +52,7 @@ const categories = [
   "wood",
   "baggy",
 ];
-const colors = [
+const colores = [
   "#F2A1AD",
   "#6495ED",
   "#FFD1DC",
@@ -59,6 +73,41 @@ function Index() {
     height: PAGE_HEIGHT,
   };
 
+  const { colors } = useTheme();
+  const animationConfigs = useBottomSheetSpringConfigs({
+    damping: 8,
+    overshootClamping: false,
+    restDisplacementThreshold: 0.1,
+    restSpeedThreshold: 0.1,
+    stiffness: 100,
+  });
+  const bottomSheetModalRef = useRef(null);
+  const snapPoints =
+    Platform.OS === "android"
+      ? useMemo(() => ["34%", "80%"], [])
+      : useMemo(() => ["25%", "70%"], []);
+  const [activeInd, setActiveIndex] = useState();
+  const handlePresentModalPress = useCallback((index) => {
+    setActiveIndex(index);
+    bottomSheetModalRef.current?.present();
+  }, []);
+  const handleSheetChanges = useCallback((index) => {}, []);
+
+  async function fet(...args) {
+    try {
+      const res = await fetch(...args);
+      return await res.json();
+    } catch (err) {
+      throw err;
+    }
+  }
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["SheetDat"],
+    queryFn: () =>
+      fet("https://mocki.io/v1/e7c35e30-4554-4562-935c-628cd7e8eac6"),
+    staleTime: Infinity,
+  });
+
   return (
     <View style={{ flex: 1, marginTop: -65 }}>
       <Carousel
@@ -72,16 +121,68 @@ function Index() {
           },
         }}
         autoPlayInterval={1500}
-        data={colors}
+        data={colores}
         renderItem={({ index, animationValue }) => (
-          <Card animationValue={animationValue} key={index} index={index} />
+          <Card
+            animationValue={animationValue}
+            key={index}
+            index={index}
+            fun={() => {
+              handlePresentModalPress(index);
+            }}
+          />
         )}
       />
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        index={1}
+        snapPoints={snapPoints}
+        onChange={handleSheetChanges}
+        animationConfigs={animationConfigs}
+        backgroundStyle={{ backgroundColor: colors.bottomSheetContainer }}
+        style={{
+          shadowOffset: {
+            width: 0,
+            height: 3,
+          },
+          shadowOpacity: 0.29,
+          shadowRadius: 4.65,
+          shadowColor: colors.elevation.level2,
+          elevation: 7,
+          borderRadius: 18,
+          borderColor:
+            colors.primary === "rgb(0, 110, 28)"
+              ? "black"
+              : colors.outlineVariant,
+          borderWidth: 1,
+        }}
+        handleIndicatorStyle={{
+          backgroundColor: colors.onbottomSheetContainer,
+        }}
+      >
+        <BottomSheetScrollView>
+          {isLoading ? (
+            <View style={{ flex: 1 }}>
+              <LottieView
+                loop={true}
+                autoPlay={true}
+                source={require("../../../assets/lotties/locate.json")}
+              />
+            </View>
+          ) : (
+            <WastDets
+              loading={isLoading}
+              ind={activeInd}
+              dataz={data.garbageClasses[activeInd]}
+            />
+          )}
+        </BottomSheetScrollView>
+      </BottomSheetModal>
     </View>
   );
 }
 
-const Card = ({ index, animationValue }) => {
+const Card = ({ index, animationValue, fun }) => {
   const WIDTH = PAGE_WIDTH / 1.123;
   const HEIGHT = PAGE_HEIGHT / 2.04;
   const cardStyle = useAnimatedStyle(() => {
@@ -144,100 +245,106 @@ const Card = ({ index, animationValue }) => {
   }, [index]);
 
   return (
-    <Animated.View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
+    <TouchableWithoutFeedback
+      onPress={() => {
+        fun(index);
       }}
     >
       <Animated.View
-        style={[
-          {
-            backgroundColor: colors[index],
-            alignSelf: "center",
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: 20,
-            width: WIDTH,
-            height: HEIGHT,
-            shadowColor: "gray",
-            shadowOffset: {
-              width: 0,
-              height: 8,
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Animated.View
+          style={[
+            {
+              backgroundColor: colores[index],
+              alignSelf: "center",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 20,
+              width: WIDTH,
+              height: HEIGHT,
+              shadowColor: "gray",
+              shadowOffset: {
+                width: 0,
+                height: 8,
+              },
+              shadowOpacity: 0.44,
+              shadowRadius: 10.32,
+              elevation: 16,
             },
-            shadowOpacity: 0.44,
-            shadowRadius: 10.32,
-            elevation: 16,
-          },
-          cardStyle,
-        ]}
-      />
-      <Animated.Image
-        source={fruits[index % 8]}
-        style={[
-          {
-            width: 256,
-            height: 256,
-            borderRadius: 16,
-            justifyContent: "center",
-            alignItems: "center",
+            cardStyle,
+          ]}
+        />
+        <Animated.Image
+          source={fruits[index % 8]}
+          style={[
+            {
+              width: 256,
+              height: 256,
+              borderRadius: 16,
+              justifyContent: "center",
+              alignItems: "center",
+              position: "absolute",
+              zIndex: 999,
+              top: 95,
+              left: Platform.OS === "android" ? 122 : 101,
+            },
+            blockStyle,
+          ]}
+          resizeMode={"contain"}
+        />
+        <Animated.Text
+          style={{
             position: "absolute",
             zIndex: 999,
-            top: 95,
-            left: Platform.OS === "android" ? 122 : 101,
-          },
-          blockStyle,
-        ]}
-        resizeMode={"contain"}
-      />
-      <Animated.Text
-        style={{
-          position: "absolute",
-          zIndex: 999,
-          fontSize: 84,
-          color: "white",
-          fontWeight: 800,
-          fontFamily: "GothamRounded-Bold",
-          textShadowColor: "#000",
-          textShadowOffset: {
-            width: 6,
-            height: 8,
-          },
-          textShadowRadius: 4.65,
-          elevation: 14,
-          textAlign: "left",
-          top: 156,
-          left: 52,
-          textTransform: "lowercase",
-        }}
-      >
-        {categories[index % 8]}
-      </Animated.Text>
-      <Animated.Text
-        style={{
-          position: "absolute",
-          zIndex: 1000,
-          fontSize: 84,
-          color: colors[index % 8],
-          fontWeight: 800,
-          fontFamily: "GothamRounded-Bold",
-          textShadowColor: "#000",
-          textShadowOffset: {
-            width: 4.6,
-            height: 3,
-          },
-          paddingTop: 72,
-          marginLeft: 5,
-          textShadowRadius: 12.65,
-          textAlign: "right",
-          textTransform: "lowercase",
-          elevation: 16,
-        }}
-      >
-        Waste
-      </Animated.Text>
-    </Animated.View>
+            fontSize: 84,
+            color: "white",
+            fontWeight: 800,
+            fontFamily: "GothamRounded-Bold",
+            textShadowColor: "#000",
+            textShadowOffset: {
+              width: 6,
+              height: 8,
+            },
+            textShadowRadius: 4.65,
+            elevation: 14,
+            textAlign: "left",
+            top: 156,
+            left: 52,
+            textTransform: "lowercase",
+          }}
+        >
+          {categories[index % 8]}
+        </Animated.Text>
+        <Animated.Text
+          style={{
+            position: "absolute",
+            zIndex: 1000,
+            fontSize: 84,
+            color: colores[index % 8],
+            fontWeight: 800,
+            fontFamily: "GothamRounded-Bold",
+            textShadowColor: "#000",
+            textShadowOffset: {
+              width: 4.6,
+              height: 3,
+            },
+            paddingTop: 72,
+            marginLeft: 5,
+            textShadowRadius: 12.65,
+            textAlign: "right",
+            textTransform: "lowercase",
+            elevation: 16,
+          }}
+        >
+          Waste
+        </Animated.Text>
+      </Animated.View>
+    </TouchableWithoutFeedback>
   );
 };
 
