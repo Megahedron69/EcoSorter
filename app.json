@@ -21,7 +21,7 @@
       [
         "expo-updates",
         {
-          "username": "account-username"
+          "username": "megahedron69"
         }
       ],
       [
@@ -37,9 +37,7 @@
         }
       ]
     ],
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
