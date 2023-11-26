@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
@@ -19,6 +19,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toasts } from "@backpackapp-io/react-native-toast";
 import { UpdateModal } from "./Components/Home/Settings/Updateprofile";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import * as Notifications from "expo-notifications";
+import { registerForPushNotificationsAsync } from "./Utilities/Notifs";
 SplashScreen.preventAutoHideAsync();
 
 const queryClient = new QueryClient();
@@ -28,6 +30,33 @@ export default function App() {
   const auth = getAuth();
   const user = auth.currentUser;
   const [authe, setAuthe] = useState("Onboarding");
+  const [expoPushToken, setExpoPushToken] = useState("");
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
+  useEffect(() => {
+    registerForPushNotificationsAsync().then((token) =>
+      setExpoPushToken(token)
+    );
+
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        setNotification(notification);
+      });
+
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        console.log(response);
+      });
+
+    return () => {
+      Notifications.removeNotificationSubscription(
+        notificationListener.current
+      );
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, []);
   useEffect(() => {
     if (user) setAuthe("Home");
     else setAuthe("Onboarding");

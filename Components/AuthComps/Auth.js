@@ -8,11 +8,8 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 import { ToastPosition, toast } from "@backpackapp-io/react-native-toast";
-import {
-  GoogleSignin,
-  statusCodes,
-} from "@react-native-google-signin/google-signin";
-
+import { sendPushNotification } from "../../Utilities/Notifs";
+import * as Notifications from "expo-notifications";
 const auth = getAuth(app);
 export const signUpWithEmailAndPassword = async (
   email,
@@ -79,6 +76,10 @@ export const signInWithEmailzAndPassword = async (
         pressable: { borderRadius: 21 },
       },
     });
+    sendPushNotification(
+      (await Notifications.getExpoPushTokenAsync()).data,
+      user
+    );
     return user;
   } catch (error) {
     toast(`${error.message}`, {

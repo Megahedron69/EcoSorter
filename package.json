@@ -14,7 +14,6 @@
     "@expo/vector-icons": "^13.0.0",
     "@gorhom/bottom-sheet": "^4.5.1",
     "@react-native-async-storage/async-storage": "1.18.2",
-    "@react-native-google-signin/google-signin": "^10.1.1",
     "@react-native-masked-view/masked-view": "0.2.9",
     "@react-navigation/bottom-tabs": "^6.5.9",
     "@react-navigation/native": "^6.1.8",

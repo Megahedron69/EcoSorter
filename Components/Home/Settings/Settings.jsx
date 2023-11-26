@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, LogBox, Modal } from "react-native";
 import { getAuth } from "firebase/auth";
 import {
@@ -12,7 +12,10 @@ import {
 import Toggle from "react-native-toggle-input";
 import { signOutUser } from "../../AuthComps/Auth";
 import { useNavigation } from "@react-navigation/native";
-
+import {
+  schedulePushNotification,
+  cancelMyNotifs,
+} from "../../../Utilities/Notifs";
 export const Settings = ({ navigation }) => {
   LogBox.ignoreAllLogs(true);
   const { colors } = useTheme();
@@ -27,6 +30,10 @@ export const Settings = ({ navigation }) => {
 
   const [toggleD, setToggleD] = useState(true);
   const [toggleN, setToggleN] = useState(false);
+  useEffect(() => {
+    if (toggleN) schedulePushNotification();
+    else cancelMyNotifs();
+  }, [toggleN]);
 
   return (
     <View
