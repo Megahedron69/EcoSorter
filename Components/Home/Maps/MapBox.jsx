@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { View } from "react-native";
-import MapView, { Marker, Callout } from "react-native-maps";
+import MapView, { Marker, Callout, PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from "expo-location";
 import { useTheme } from "react-native-paper";
 import MyChips from "./MyChips";
@@ -115,6 +115,7 @@ export const MapBox = () => {
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             }}
+            provider={PROVIDER_GOOGLE}
             showsUserLocation={true}
             showsMyLocationButton={false}
             customMapStyle={

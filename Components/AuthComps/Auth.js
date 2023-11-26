@@ -8,6 +8,10 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 import { ToastPosition, toast } from "@backpackapp-io/react-native-toast";
+import {
+  GoogleSignin,
+  statusCodes,
+} from "@react-native-google-signin/google-signin";
 
 const auth = getAuth(app);
 export const signUpWithEmailAndPassword = async (
