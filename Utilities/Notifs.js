@@ -1,4 +1,3 @@
-import Constants from "expo-constants";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 Notifications.setNotificationHandler({
@@ -69,7 +68,11 @@ export async function registerForPushNotificationsAsync() {
       });
       return;
     }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
+    token = (
+      await Notifications.getExpoPushTokenAsync({
+        projectId: "7e55f24f-ba67-47e0-b5b0-d8a0ad40c829",
+      })
+    ).data;
   } else {
     alert("Must use physical device for Push Notifications");
   }

@@ -92,7 +92,6 @@ export const MapBox = () => {
       ),
     staleTime: 2592000,
   });
-
   if (isError) {
     toast("Unable to locate any establishment nearby", {
       duration: 4000,
