@@ -14,6 +14,7 @@
     "@expo/vector-icons": "^13.0.0",
     "@gorhom/bottom-sheet": "^4.5.1",
     "@react-native-async-storage/async-storage": "1.18.2",
+    "@react-native-google-signin/google-signin": "^10.1.1",
     "@react-native-masked-view/masked-view": "0.2.9",
     "@react-navigation/bottom-tabs": "^6.5.9",
     "@react-navigation/native": "^6.1.8",
@@ -50,6 +51,7 @@
     "react-native-apple-header": "^1.0.1",
     "react-native-circular-progress-indicator": "^4.4.2",
     "react-native-curved-bottom-bar": "^3.2.6",
+    "react-native-flying-objects": "^1.2.0",
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "~2.12.0",
     "react-native-maps": "1.7.1",
@@ -67,7 +69,8 @@
     "react-native-webview": "13.2.2",
     "react-native-youtube-iframe": "^2.3.0",
     "react-native-zoom-lightbox": "^1.0.1",
-    "victory-native": "^36.6.12"
+    "victory-native": "^36.6.12",
+    "@shopify/flash-list": "1.4.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

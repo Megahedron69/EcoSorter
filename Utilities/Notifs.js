@@ -1,5 +1,6 @@
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
+import { getRandomWittyString } from "./constants";
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -83,12 +84,11 @@ export async function registerForPushNotificationsAsync() {
 export async function schedulePushNotification() {
   await Notifications.scheduleNotificationAsync({
     content: {
-      title: "Sort your waste now",
-      body: "👋 Don't forget to scan your waste today!",
+      title: getRandomWittyString("title"),
+      body: getRandomWittyString("body"),
     },
     trigger: {
-      minute: 1,
-      repeats: true,
+      seconds: 60 * 2,
     },
   });
 }

@@ -1,5 +1,5 @@
-import { useState, useCallback, useMemo } from "react";
-import { Image, View, Button, Alert, StyleSheet } from "react-native";
+import { useState, useCallback } from "react";
+import { Image, View } from "react-native";
 import { Surface, Text, useTheme } from "react-native-paper";
 import SegmentedControl from "react-native-segmented-control-2";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -101,7 +101,7 @@ const WasteDets = ({ ind, imageURI, catName, loading, dataz }) => {
         <Surface
           style={{
             display: "flex",
-            height: 250,
+            height: 268,
             borderRadius: 18,
             backgroundColor: colors.secondaryContainer,
             justifyContent: "flex-start",
@@ -221,7 +221,7 @@ const WasteDets = ({ ind, imageURI, catName, loading, dataz }) => {
             shadowRadius: 4.65,
             elevation: 8,
             padding: 18,
-            paddingTop: 60,
+            paddingTop: 40,
           }}
         >
           {dataz.tips[Object.keys(dataz.tips)[activeIndex]].steps.map(
@@ -231,6 +231,7 @@ const WasteDets = ({ ind, imageURI, catName, loading, dataz }) => {
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
+                  alignSelf: "flex-start",
                   marginVertical: activeIndex === 2 ? 2 : 9,
                   marginRight: 15,
                 }}

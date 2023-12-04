@@ -12,12 +12,18 @@ import {
   View,
   LogBox,
   Platform,
+  Animated,
+  Easing,
 } from "react-native";
-import { useTheme, Button } from "react-native-paper";
+import { useTheme, Button, IconButton } from "react-native-paper";
+import { classNames, mapClassNameToCato } from "../../../Utilities/constants";
+import { increMyScr } from "../../../Utilities/database/firestore";
 import LottieView from "lottie-react-native";
 import { ToastPosition, toast } from "@backpackapp-io/react-native-toast";
 import { BlurView } from "expo-blur";
+import { getAuth } from "firebase/auth";
 import CollapsibleView from "@eliav2/react-native-collapsible-view";
+import { FlyingView } from "react-native-flying-objects";
 
 LogBox.ignoreAllLogs(["Animated: `useNativeDriver`"]);
 const CAM_PREVIEW_WIDTH = Dimensions.get("window").width;
@@ -26,21 +32,10 @@ const OUTPUT_TENSOR_WIDTH = 280;
 const OUTPUT_TENSOR_HEIGHT = 480;
 const TensorCamera = cameraWithTensors(Camera);
 
-const classNames = [
-  "E-Waste",
-  "Plastic bags",
-  "Metal cans",
-  "Plastic bottles",
-  "Food waste",
-  "Leaf waste",
-  "Paper waste",
-  "Wood waste",
-];
-
 export const Scanner = () => {
   const { colors } = useTheme();
   const rafId = useRef(null);
-
+  const user = getAuth();
   const styles = StyleSheet.create({
     container: {
       position: "relative",
@@ -48,7 +43,6 @@ export const Scanner = () => {
       height: CAM_PREVIEW_HEIGHT,
       marginTop: Dimensions.get("window").height / 2 - CAM_PREVIEW_HEIGHT / 2,
     },
-    // Tensor camera requires z-index.
     camera: {
       flex: 1,
       width: "100%",
@@ -72,6 +66,7 @@ export const Scanner = () => {
   const [tfReady, settfReady] = useState(false);
   const [model, setModel] = useState();
   const [preds, setPreds] = useState();
+  const [object, setObject] = useState([]);
 
   useEffect(() => {
     const loadMyModel = async () => {
@@ -109,6 +104,38 @@ export const Scanner = () => {
       }
     };
   }, []);
+  useEffect(() => {
+    if (object.length > 0) {
+      const lastObjectIndex = object.length - 1;
+      const lastObject = object[lastObjectIndex];
+      Animated.parallel([
+        Animated.timing(lastObject.right, {
+          toValue: 100,
+          duration: 1500,
+          easing: Easing.out(Easing.quad),
+          useNativeDriver: true,
+        }),
+        Animated.timing(lastObject.top, {
+          toValue: 35,
+          duration: 1500,
+          easing: Easing.out(Easing.quad),
+          useNativeDriver: true,
+        }),
+        Animated.timing(lastObject.show, {
+          toValue: 1,
+          duration: 800,
+          easing: Easing.ease,
+          useNativeDriver: true,
+        }),
+        Animated.timing(lastObject.hide, {
+          toValue: 0,
+          duration: 800,
+          easing: Easing.ease,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    }
+  }, [object]);
 
   const handleCameraStream = (images) => {
     console.log("cam loadeded");
@@ -134,7 +161,7 @@ export const Scanner = () => {
           const result = model.predict(cropped);
           const logits = result.dataSync();
           if (logits && logits.length > 0) {
-            let e = Math.max(...logits); // Spread the array to find the maximum value
+            let e = Math.max(...logits);
             let ind = logits.indexOf(e);
             ind != -1 ? console.log(classNames[ind]) : "null";
             setPreds(classNames[ind]);
@@ -197,6 +224,20 @@ export const Scanner = () => {
                 padding: 10,
               }}
             >
+              <FlyingView
+                object={object}
+                containerProps={{
+                  style: {
+                    borderWidth: 2,
+                    height: 0,
+                    width: 0,
+                    borderColor: "black",
+                    zIndex: 500,
+                    top: -40,
+                    left: 270,
+                  },
+                }}
+              />
               <CollapsibleView
                 title={<Text style={styles.resultText}>{preds}</Text>}
                 titleStyle={{ marginBottom: 9 }}
@@ -206,6 +247,7 @@ export const Scanner = () => {
                   borderWidth: 0,
                 }}
                 noArrow={true}
+                unmountOnCollapse={true}
               >
                 <Button
                   icon="navigation-variant-outline"
@@ -224,8 +266,51 @@ export const Scanner = () => {
                 >
                   Waste info
                 </Button>
+                <IconButton
+                  icon="recycle"
+                  mode="contained-tonal"
+                  animated={true}
+                  rippleColor={colors.secondary}
+                  size={20}
+                  onPress={() => {
+                    setObject((prev) => [
+                      ...prev,
+                      {
+                        object: (
+                          <Text
+                            style={{
+                              fontSize: 21,
+                              zIndex: 1500,
+                              color: colors.primary,
+                              fontWeight: 700,
+                            }}
+                            variant="headlineLarge"
+                          >
+                            +{preds}
+                          </Text>
+                        ),
+                        right: new Animated.Value(0),
+                        top: new Animated.Value(100),
+                        show: new Animated.Value(1),
+                        hide: new Animated.Value(0),
+                      },
+                    ]);
+                    increMyScr(
+                      user.currentUser.email,
+                      mapClassNameToCato(preds),
+                      user.currentUser.displayName,
+                      user.currentUser.photoURL,
+                      colors.errorContainer,
+                      colors.onErrorContainer
+                    );
+                  }}
+                  style={{
+                    left: 197,
+                    bottom: 0,
+                  }}
+                  iconColor={colors.primary}
+                />
               </CollapsibleView>
-              {/* <Text style={styles.resultText}>{preds}</Text> */}
             </BlurView>
           </View>
         </View>

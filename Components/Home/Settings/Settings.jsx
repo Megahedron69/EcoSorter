@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, LogBox, Modal } from "react-native";
+import { View, LogBox } from "react-native";
 import { getAuth } from "firebase/auth";
 import {
   useTheme,
@@ -29,10 +29,17 @@ export const Settings = ({ navigation }) => {
       : user.displayName;
 
   const [toggleD, setToggleD] = useState(true);
-  const [toggleN, setToggleN] = useState(false);
+  const [toggleN, setToggleN] = useState(true);
+
   useEffect(() => {
-    if (toggleN) schedulePushNotification();
-    else cancelMyNotifs();
+    const manageNotifications = async () => {
+      if (toggleN) {
+        await schedulePushNotification();
+      } else {
+        await cancelMyNotifs();
+      }
+    };
+    manageNotifications();
   }, [toggleN]);
 
   return (
@@ -140,7 +147,7 @@ export const Settings = ({ navigation }) => {
                 filled={true}
                 color={colors.primary}
                 setToggle={() => {
-                  setToggleN(!toggleN);
+                  setToggleN((prevToggleN) => !prevToggleN);
                 }}
               />
             )}

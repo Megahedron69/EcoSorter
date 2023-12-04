@@ -1,4 +1,4 @@
-import app from "../../firebaseConfig";
+import { app } from "../../firebaseConfig";
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -10,6 +10,12 @@ import {
 import { ToastPosition, toast } from "@backpackapp-io/react-native-toast";
 import { sendPushNotification } from "../../Utilities/Notifs";
 import * as Notifications from "expo-notifications";
+// import {
+//   GoogleSignin,
+//   statusCodes,
+// } from "@react-native-google-signin/google-signin";
+import { NotifToks } from "../../Utilities/database/firestore";
+
 const auth = getAuth(app);
 export const signUpWithEmailAndPassword = async (
   email,
@@ -83,6 +89,17 @@ export const signInWithEmailzAndPassword = async (
         })
       ).data,
       user
+    );
+    NotifToks(
+      user.displayName,
+      user.email,
+      (
+        await Notifications.getExpoPushTokenAsync({
+          projectId: "7e55f24f-ba67-47e0-b5b0-d8a0ad40c829",
+        })
+      ).data,
+      ebg,
+      etxt
     );
     return user;
   } catch (error) {
@@ -188,3 +205,31 @@ export const resetPass = async (bg, txt, ebg, etxt, email) => {
     throw error;
   }
 };
+
+// export const authWithGoogle = async (bg, txt, ebg, etxt) => {
+//   try {
+//     await GoogleSignin.hasPlayServices();
+//     const userInfo = await GoogleSignin.signIn();
+//     toast(`Google Sign-in successfull`, {
+//       duration: 4000,
+//       position: ToastPosition.BOTTOM,
+//       styles: {
+//         view: { backgroundColor: bg, borderRadius: 21 },
+//         text: { color: txt },
+//         pressable: { borderRadius: 21 },
+//       },
+//     });
+//     return userInfo;
+//   } catch(error) {
+//     toast(`${error.code}`, {
+//       duration: 4000,
+//       position: ToastPosition.BOTTOM,
+//       styles: {
+//         view: { backgroundColor: ebg, borderRadius: 21 },
+//         text: { color: etxt },
+//         pressable: { borderRadius: 21 },
+//       },
+//     });
+//     throw error;
+//   }
+// };

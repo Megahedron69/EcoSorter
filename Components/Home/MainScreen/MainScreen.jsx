@@ -93,10 +93,19 @@ export const MainScreen = () => {
             overflow: "hidden",
           }}
         >
+          <IconButton
+            icon={"chevron-right-circle"}
+            size={32}
+            iconColor="#81ca55"
+            style={{ top: 10, left: 290, zIndex: 7 }}
+            onPress={() => {
+              navigate.navigate("Leader");
+            }}
+          />
           <View
             style={{
               marginLeft: 37,
-              marginTop: 46,
+              marginTop: 36,
               marginRight: 112,
               width: 186,
               height: 106,
@@ -106,11 +115,13 @@ export const MainScreen = () => {
             <Text
               style={{
                 color: colors.onSurface,
-                fontSize: 28,
+                fontSize: 32,
                 fontWeight: 700,
+                textAlign: "left",
+                marginTop: -15,
               }}
               variant="headlineSmall"
-              numberOfLines={3}
+              numberOfLines={4}
             >
               Compete globally by sorting waste
             </Text>
@@ -122,8 +133,8 @@ export const MainScreen = () => {
               transform: [{ rotate: "-15deg" }],
               width: 302,
               height: 270,
-              bottom: 10,
-              right: -15,
+              bottom: 60,
+              right: -38,
             }}
           />
         </Surface>

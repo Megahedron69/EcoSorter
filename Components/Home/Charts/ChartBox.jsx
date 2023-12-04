@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo, useState, useEffect } from "react";
 import { View, ScrollView, Platform, LogBox } from "react-native";
 import {
   useTheme,
@@ -10,18 +10,39 @@ import {
 } from "react-native-paper";
 import RadarChart from "./RadarChart";
 import ActRings from "./Activityrings";
+import { getAuth } from "firebase/auth";
 import FourInstancesView from "./FourText";
 import { ImageBackground } from "react-native";
-import { catos, colorScale, vals } from "../../../Utilities/constants";
+import { catos, colorScale } from "../../../Utilities/constants";
+import { GetUserScores } from "../../../Utilities/database/firestore";
 import WebView from "react-native-webview";
+import LottieView from "lottie-react-native";
 export const ChartBox = () => {
   LogBox.ignoreAllLogs();
   const { colors } = useTheme();
   const MemoizedRadarChart = memo(RadarChart);
   const [visible, setVisible] = useState(false);
+  const [vals, setVals] = useState();
+  const [loading, setLoading] = useState(true);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
-
+  const auth = getAuth();
+  useEffect(() => {
+    const getDat = async () => {
+      try {
+        const scores = await GetUserScores(
+          auth.currentUser.email,
+          colors.errorContainer,
+          colors.onErrorContainer
+        );
+        setVals(Object.values(scores));
+        setLoading(false);
+      } catch {
+        console.log("error");
+      }
+    };
+    getDat();
+  }, []);
   return (
     <ScrollView
       style={{
@@ -58,78 +79,88 @@ export const ChartBox = () => {
             overflow: "hidden",
           }}
         >
-          <View
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              margin: 8,
-            }}
-          >
-            <Text
-              variant="headlineLarge"
-              style={{ textAlign: "center", fontWeight: 700 }}
-            >
-              Track your progress
-            </Text>
-          </View>
-          <View style={{ position: "absolute", top: 70, left: 10 }}>
-            <FourInstancesView
-              cols={colorScale.slice(0, 4)}
-              vals={vals.slice(0, 4)}
-              cato={catos.slice(0, 4)}
+          {loading ? (
+            <LottieView
+              loop={true}
+              autoPlay={true}
+              source={require("../../../assets/lotties/cloudLoad.json")}
             />
-          </View>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              padding: 3,
-              alignItems: "center",
-              margin: 6,
-              justifyContent: "space-between",
-            }}
-          >
-            <View
-              style={{
-                height: "50%",
-                width: "50%",
-                marginTop: 5,
-                display: "flex",
-                marginRight: -159,
-                alignItems: "flex-start",
-              }}
-            >
-              <ActRings
-                colos={colorScale.slice(0, 4)}
-                vals={vals.slice(0, 4)}
-                isclockwise={true}
-              />
+          ) : (
+            <View>
+              <View
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  margin: 8,
+                }}
+              >
+                <Text
+                  variant="headlineLarge"
+                  style={{ textAlign: "center", fontWeight: 700 }}
+                >
+                  Track your progress
+                </Text>
+              </View>
+              <View style={{ position: "absolute", top: 70, left: 10 }}>
+                <FourInstancesView
+                  cols={colorScale.slice(0, 4)}
+                  vals={vals.slice(0, 4)}
+                  cato={catos.slice(0, 4)}
+                />
+              </View>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  padding: 3,
+                  alignItems: "center",
+                  margin: 6,
+                  justifyContent: "space-between",
+                }}
+              >
+                <View
+                  style={{
+                    height: "50%",
+                    width: "50%",
+                    marginTop: 5,
+                    display: "flex",
+                    marginRight: -159,
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <ActRings
+                    colos={colorScale.slice(0, 4)}
+                    vals={vals.slice(0, 4)}
+                    isclockwise={true}
+                  />
+                </View>
+                <View
+                  style={{
+                    height: "50%",
+                    width: "50%",
+                    margin: 5,
+                    alignItems: "flex-end",
+                    marginLeft: -159,
+                    marginTop: -50,
+                  }}
+                >
+                  <ActRings
+                    colos={colorScale.slice(4, colorScale.length)}
+                    vals={vals.slice(4, vals.length)}
+                    isclockwise={false}
+                  />
+                </View>
+              </View>
+              <View style={{ position: "absolute", bottom: 50, right: 10 }}>
+                <FourInstancesView
+                  cols={colorScale.slice(4, colorScale.length)}
+                  vals={vals.slice(4, vals.length)}
+                  cato={catos.slice(4, catos.length)}
+                />
+              </View>
             </View>
-            <View
-              style={{
-                height: "50%",
-                width: "50%",
-                margin: 5,
-                alignItems: "flex-end",
-                marginLeft: -159,
-                marginTop: -50,
-              }}
-            >
-              <ActRings
-                colos={colorScale.slice(4, colorScale.length)}
-                vals={vals.slice(4, vals.length)}
-                isclockwise={false}
-              />
-            </View>
-          </View>
-          <View style={{ position: "absolute", bottom: 50, right: 10 }}>
-            <FourInstancesView
-              cols={colorScale.slice(4, colorScale.length)}
-              vals={vals.slice(4, vals.length)}
-              cato={catos.slice(4, catos.length)}
-            />
-          </View>
+          )}
         </Surface>
       </View>
       <TouchableRipple rippleColor="rgba(0, 0, 0, .18)" onPress={showModal}>

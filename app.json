@@ -47,7 +47,8 @@
           "color": "#ffffff",
           "sounds": ["./assets/sounds/kz.wav"]
         }
-      ]
+      ],
+      ["@react-native-google-signin/google-signin"]
     ],
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -59,6 +60,7 @@
         "backgroundColor": "#ffffff",
         "monochromeImage": "./assets/mono.png"
       },
+      "googleServicesFile": "./google-services.json",
       "package": "com.kartodevs.ecosorter",
       "versionCode": 1,
       "permissions": [

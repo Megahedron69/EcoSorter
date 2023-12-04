@@ -21,6 +21,7 @@ import { UpdateModal } from "./Components/Home/Settings/Updateprofile";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import * as Notifications from "expo-notifications";
 import { registerForPushNotificationsAsync } from "./Utilities/Notifs";
+import { Leaderboard } from "./Components/Home/LeaderBoard/LeaderBoard";
 SplashScreen.preventAutoHideAsync();
 
 const queryClient = new QueryClient();
@@ -34,8 +35,6 @@ export default function App() {
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
-  console.log(expoPushToken);
-  console.log(authe);
   useEffect(() => {
     registerForPushNotificationsAsync().then((token) =>
       setExpoPushToken(token)
@@ -127,7 +126,6 @@ export default function App() {
                   >
                     {(props) => <SignIn {...props} mode={"signIn"} />}
                   </Stack.Screen>
-
                   <Stack.Screen
                     name="Home"
                     options={{
@@ -148,6 +146,17 @@ export default function App() {
                     }}
                   >
                     {(props) => <UpdateModal {...props} />}
+                  </Stack.Screen>
+                  <Stack.Screen
+                    name="Leader"
+                    options={{
+                      header: ({ navigation }) => {
+                        return null; // Hide the entire header
+                      },
+                      animation: "slide_from_bottom",
+                    }}
+                  >
+                    {(props) => <Leaderboard {...props} />}
                   </Stack.Screen>
                 </Stack.Navigator>
               </BottomSheetModalProvider>

@@ -18,6 +18,16 @@ export const catos = [
   "Paper",
   "Wood",
 ];
+export const classNames = [
+  "E-Waste",
+  "Plastic bags",
+  "Metal cans",
+  "Plastic bottles",
+  "Food waste",
+  "Leaf waste",
+  "Paper waste",
+  "Wood waste",
+];
 export const vals = [64, 47, 83, 67, 62, 67, 95, 73];
 export const characterData = [
   {
@@ -77,3 +87,41 @@ export const characterData = [
     carbonFootprint: 4,
   },
 ];
+
+const wittyStringsMap = new Map([
+  [
+    "title",
+    [
+      "Recycle like a pro!",
+      "Turn trash into treasure!",
+      "Trash talking... about recycling!",
+      "Sorting your waste? You're a superhero!",
+      "Waste wizardry at its finest!",
+    ],
+  ],
+  [
+    "body",
+    [
+      "♻️ Don't let your trash go to waste!",
+      "Trash-tastic! Scan your items for a green surprise!",
+      "Greenify your day—scan your waste away! 🌿",
+      "Recycle now, avoid the landfill frown!",
+      "Be a recycling rockstar—scan and roll!",
+    ],
+  ],
+]);
+
+export const getRandomWittyString = (type) => {
+  const strings = wittyStringsMap.get(type) || [];
+  const randomIndex = Math.floor(Math.random() * strings.length);
+  return strings[randomIndex];
+};
+
+const classNamesToCatosMap = {};
+classNames.forEach((className, index) => {
+  classNamesToCatosMap[className] = catos[index];
+});
+
+export const mapClassNameToCato = (className) => {
+  return classNamesToCatosMap[className] || null;
+};

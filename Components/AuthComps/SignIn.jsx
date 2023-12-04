@@ -13,6 +13,7 @@ import {
   signUpWithEmailAndPassword,
   signInWithEmailzAndPassword,
   resetPass,
+  // authWithGoogle
 } from "../AuthComps/Auth";
 import { AntDesign } from "@expo/vector-icons";
 const SignIn = ({ mode, navigation }) => {
