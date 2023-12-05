@@ -9,7 +9,7 @@ const slides = [
     description:
       "Effortlessly and intelligently sort your waste with EcoSorter's cutting-edge machine learning technology.",
     picture: require("../../assets/lotties/1.json"),
-    button: true,
+    button: false,
   },
   {
     color: "#87CEEB",
