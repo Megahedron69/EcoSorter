@@ -83,21 +83,13 @@ export const signInWithEmailzAndPassword = async (
       },
     });
     sendPushNotification(
-      (
-        await Notifications.getExpoPushTokenAsync({
-          projectId: "7e55f24f-ba67-47e0-b5b0-d8a0ad40c829",
-        })
-      ).data,
+      (await Notifications.getDevicePushTokenAsync()).data,
       user
     );
     NotifToks(
       user.displayName,
       user.email,
-      (
-        await Notifications.getExpoPushTokenAsync({
-          projectId: "7e55f24f-ba67-47e0-b5b0-d8a0ad40c829",
-        })
-      ).data,
+      (await Notifications.getDevicePushTokenAsync()).data,
       ebg,
       etxt
     );

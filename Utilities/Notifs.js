@@ -26,7 +26,7 @@ export async function sendPushNotification(expoPushToken, user) {
     },
   };
 
-  await fetch("https://exp.host/--/api/v2/push/send", {
+  await fetch("https://fcm.googleapis.com/fcm/send", {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -69,11 +69,7 @@ export async function registerForPushNotificationsAsync() {
       });
       return;
     }
-    token = (
-      await Notifications.getExpoPushTokenAsync({
-        projectId: "7e55f24f-ba67-47e0-b5b0-d8a0ad40c829",
-      })
-    ).data;
+    token = (await Notifications.getDevicePushTokenAsync()).data;
   } else {
     alert("Must use physical device for Push Notifications");
   }
