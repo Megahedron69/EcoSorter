@@ -71,7 +71,7 @@
     "react-native-zoom-lightbox": "^1.0.1",
     "victory-native": "^36.6.12",
     "@shopify/flash-list": "1.4.3",
-    "expo-dev-client": "~2.4.12"
+    "expo-dev-client": "~2.4.13"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

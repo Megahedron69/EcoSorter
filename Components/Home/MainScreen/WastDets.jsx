@@ -156,7 +156,7 @@ const WasteDets = ({ ind, imageURI, catName, loading, dataz }) => {
         }}
       >
         <SegmentedControl
-          tabs={["Reuse", "Recycle", "Reduce"]}
+          tabs={["Reuse", "Reduce", "Recycle"]}
           activeTabColor={colors.primary}
           style={{
             borderRadius: 18,

@@ -70,7 +70,7 @@ const SignIn = ({ mode, navigation }) => {
     );
   };
   const validateEmail = () => {
-    const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
+    const emailRegex = /^[\w+.-]+@[\da-z-]+\.[\d.a-z-]+$/i;
     if (!isEmailAutofilled.current && !emailRegex.test(text.email)) {
       setError({ ...error, email: "Please enter a valid email" });
       return false;

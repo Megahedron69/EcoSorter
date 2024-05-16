@@ -98,16 +98,17 @@ function Index() {
       const res = await fetch(...args);
       return await res.json();
     } catch (err) {
+      console.log(err)
       throw err;
     }
   }
   const { data, isLoading, isError } = useQuery({
     queryKey: ["SheetDat"],
     queryFn: () =>
-      fet("https://mocki.io/v1/e7c35e30-4554-4562-935c-628cd7e8eac6"),
+      fet("https://api.myjson.online/v1/records/396b60c2-a672-4f16-9adb-63676b7e3e8c"),
     staleTime: Infinity,
   });
-
+  if(isError)console.log("error")
   return (
     <View style={{ flex: 1, marginTop: -65 }}>
       <Carousel
@@ -161,21 +162,21 @@ function Index() {
         }}
       >
         <BottomSheetScrollView>
-          {isLoading ? (
-            <View style={{ flex: 1 }}>
-              <LottieView
-                loop={true}
-                autoPlay={true}
-                source={require("../../../assets/lotties/locate.json")}
-              />
-            </View>
-          ) : (
-            <WastDets
-              loading={isLoading}
-              ind={activeInd}
-              dataz={data.garbageClasses[activeInd]}
-            />
-          )}
+        {isLoading ? (
+  <View style={{ flex: 1 }}>
+    <LottieView
+      loop={true}
+      autoPlay={true}
+      source={require("../../../assets/lotties/locate.json")}
+    />
+  </View>
+) : (
+  <WastDets
+    loading={isLoading}
+    ind={activeInd}
+    dataz={data ? data.data[activeInd] : null} // Access data using square brackets
+  />
+)}
         </BottomSheetScrollView>
       </BottomSheetModal>
     </View>
