@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "420358093793",
+    "project_id": "ecosorter-f9a91",
+    "storage_bucket": "ecosorter-f9a91.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:420358093793:android:eb8e303ba27925224530a0",
+        "android_client_info": {
+          "package_name": "com.kartodevs.ecosorter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "420358093793-9i2u1m6ipg78av5qk9t40tgiq852u0c1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kartodevs.ecosorter",
+            "certificate_hash": "2148c826752c9fcd612728952864e15fcc4b92df"
+          }
+        },
+        {
+          "client_id": "420358093793-1nj0gju2vj457ub4bnld1qitqrqdag7k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGwk58LecB1kWkwO_TeWBuC-y-PUoplNA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "420358093793-1nj0gju2vj457ub4bnld1qitqrqdag7k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
