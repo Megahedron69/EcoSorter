@@ -62,7 +62,7 @@
       },
       "googleServicesFile": "./google-services.json",
       "package": "com.kartodevs.ecosorter",
-      "versionCode": 1,
+      "versionCode": 3,
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO",
