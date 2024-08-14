@@ -39,39 +39,52 @@ const SignIn = ({ mode, navigation }) => {
   }, [text.email, error, isEmailAutofilled]);
 
   const signMeIn = async () => {
-    signInWithEmailzAndPassword(
-      text.email,
-      text.password,
-      navigation,
-      colors.errorContainer,
-      colors.onErrorContainer,
-      colors.primaryContainer,
-      colors.onPrimaryContainer
-    );
+    try {
+      await signInWithEmailzAndPassword(
+        text.email,
+        text.password,
+        navigation,
+        colors.errorContainer,
+        colors.onErrorContainer,
+        colors.primaryContainer,
+        colors.onPrimaryContainer
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const signMeUp = () => {
-    signUpWithEmailAndPassword(
-      text.email,
-      text.password,
-      navigation,
-      colors.errorContainer,
-      colors.onErrorContainer,
-      colors.primaryContainer,
-      colors.onPrimaryContainer
-    );
+  const signMeUp = async () => {
+    try {
+      await signUpWithEmailAndPassword(
+        text.email,
+        text.password,
+        navigation,
+        colors.errorContainer,
+        colors.onErrorContainer,
+        colors.primaryContainer,
+        colors.onPrimaryContainer
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
-  const resetMe = () => {
-    resetPass(
-      colors.primaryContainer,
-      colors.onPrimaryContainer,
-      colors.errorContainer,
-      colors.onErrorContainer,
-      text.email
-    );
+  const resetMe = async () => {
+    try {
+      await resetPass(
+        colors.primaryContainer,
+        colors.onPrimaryContainer,
+        colors.errorContainer,
+        colors.onErrorContainer,
+        text.email
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
   const validateEmail = () => {
     const emailRegex = /^[\w+.-]+@[\da-z-]+\.[\d.a-z-]+$/i;
-    if (!isEmailAutofilled.current && !emailRegex.test(text.email)) {
+    const matched = text.email.match(emailRegex);
+    if (!isEmailAutofilled.current && !matched) {
       setError({ ...error, email: "Please enter a valid email" });
       return false;
     }
