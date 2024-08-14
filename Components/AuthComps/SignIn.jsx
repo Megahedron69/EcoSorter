@@ -263,7 +263,9 @@ const SignIn = ({ mode, navigation }) => {
               <Button
                 mode="text"
                 disabled={text.email && !error.email ? false : true}
-                onPress={resetMe}
+                onPress={async () => {
+                  await resetMe();
+                }}
                 compact={true}
               >
                 Forgot Password?
@@ -287,7 +289,7 @@ const SignIn = ({ mode, navigation }) => {
           <Button
             mode="contained"
             style={{ width: 313, height: 48, borderRadius: 10 }}
-            onPress={() => signMeIn()}
+            onPress={async () => await signMeIn()}
             uppercase={true}
             labelStyle={{
               alignSelf: "center",
@@ -306,7 +308,7 @@ const SignIn = ({ mode, navigation }) => {
           <Button
             mode="contained"
             style={{ width: 313, height: 48, borderRadius: 10 }}
-            onPress={() => signMeUp()}
+            onPress={async () => await signMeUp()}
             uppercase={true}
             labelStyle={{
               alignSelf: "center",
