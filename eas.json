@@ -15,6 +15,12 @@
       "android": {
         "buildType": "app-bundle"
       }
+    },
+    "apk": {
+      "autoIncrement": true,
+      "android": {
+        "buildType": "apk"
+      }
     }
   },
   "submit": {

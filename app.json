@@ -48,7 +48,21 @@
           "sounds": ["./assets/sounds/kz.wav"]
         }
       ],
-      ["@react-native-google-signin/google-signin"]
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 31,
+            "targetSdkVersion": 35,
+            "buildToolsVersion": "31.0.0"
+          },
+          "ios": {
+            "deploymentTarget": "13.0"
+          }
+        }
+      ],
+      ["@react-native-google-signin/google-signin"],
+      "expo-build-properties"
     ],
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -62,7 +76,7 @@
       },
       "googleServicesFile": "./google-services.json",
       "package": "com.kartodevs.ecosorter",
-      "versionCode": 3,
+      "versionCode": 4,
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO",

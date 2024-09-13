@@ -262,7 +262,7 @@ const SignIn = ({ mode, navigation }) => {
             >
               <Button
                 mode="text"
-                disabled={text.email && !error.email ? false : true}
+                disabled={!!text.email && !error.email ? false : true}
                 onPress={async () => {
                   await resetMe();
                 }}
@@ -300,7 +300,7 @@ const SignIn = ({ mode, navigation }) => {
               fontWeight: 500,
               marginTop: 16,
             }}
-            disabled={error.email || error.password}
+            disabled={!!error.email || !!error.password}
           >
             Login
           </Button>
@@ -319,7 +319,7 @@ const SignIn = ({ mode, navigation }) => {
               fontWeight: 500,
               marginTop: 16,
             }}
-            disabled={error.email || error.password}
+            disabled={!!error.email || !!error.password}
           >
             SignUp
           </Button>
