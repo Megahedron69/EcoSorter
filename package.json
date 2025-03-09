@@ -75,7 +75,7 @@
     "expo-build-properties": "~0.8.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.24.3"
   },
   "private": true
 }
